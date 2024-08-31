@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Certification Manager</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+            </div>
+            <ul>
+                <li><a href="#option1">Option 1</a></li>
+                <li><a href="#option2">Option 2</a></li>
+                <li><a href="#option3">Option 3</a></li>
+                <li><a href="#option4">Option 4</a></li>
+                <li><a href="seekCEUs.html">Seek CEUs</a></li> <!-- New Seek CEUs link -->
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <header>
+                <h1>Virtual Certification Manager</h1>
+            </header>
+            <div class="top-boxes">
+                <div class="box" id="certs-earned">
+                    Certs Earned: <span id="certs-earned-value">1</span>
+                </div>
+                <div class="box" id="ceus-remaining">
+                    CEUs Remaining This Year: <span id="ceus-remaining-value">0</span>
+                </div>
+                <div class="box" id="upcoming-courses">
+                    Upcoming Courses
+                </div>
+            </div>
+
+            <!-- Certification Form -->
+            <div id="certifications-form">
+                <label>Certification Name:</label>
+                <input type="text" id="certName" placeholder="Enter certification name">
+
+                <label>Date Earned:</label>
+                <input type="date" id="dateEarned">
+
+                <label>Required HRS:</label>
+                <input type="number" id="requiredHrs" placeholder="Enter required CEUs">
+
+                <label>Earned HRS:</label>
+                <input type="number" id="earnedHrs" placeholder="Enter earned CEUs">
+
+                <button id="add-certification">Add Certification</button>
+            </div>
+
+            <!-- Certification Table -->
+            <div id="certifications-container">
+                <h2>Certifications</h2>
+                <table id="certifications-table">
+                    <thead>
+                        <tr>
+                            <th>Certification</th>
+                            <th>Date Earned</th>
+                            <th>Required HRS</th>
+                            <th>Earned HRS</th>
+                            <th>Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ts</td>
+                            <td>8/27/2024</td>
+                            <td>20</td>
+                            <td>20</td>
+                            <td><span class="edit-icon">✏️</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
