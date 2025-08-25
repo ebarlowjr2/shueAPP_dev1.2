@@ -4,6 +4,7 @@ import requestsData from '../../data/requests.json'
 import auctionsData from '../../data/auctions.json'
 import rafflesData from '../../data/raffles.json'
 import preordersData from '../../data/preorders.json'
+import { sneaksService } from './sneaks-service'
 
 // Types
 export interface Product {
@@ -18,6 +19,14 @@ export interface Product {
   category: string
   condition: string
   sellerId: string
+  styleID?: string
+  description?: string
+  resellLinks?: {
+    stockX?: string
+    goat?: string
+    flightClub?: string
+    stadiumGoods?: string
+  }
 }
 
 export interface Seller {
@@ -234,6 +243,54 @@ export function getHomeSections(): HomeSections {
       .filter(request => request.status === 'active')
       .sort((a, b) => new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime())
       .slice(0, 5)
+  }
+}
+
+// New function to get home sections with real sneaker data
+export async function getHomeSectionsWithRealData(): Promise<HomeSections> {
+  const sellers = getSellers()
+  const auctions = getAuctions()
+  const raffles = getRaffles()
+  const preorders = getPreorders()
+  const requests = getRequests()
+
+  // Try to get real sneaker data, fallback to static data if it fails
+  let featuredProducts: Product[] = []
+  try {
+    featuredProducts = await sneaksService.getFeaturedProducts()
+  } catch (error) {
+    console.error('Failed to fetch real sneaker data, using fallback:', error)
+    featuredProducts = getProducts().slice(0, 6)
+  }
+
+  return {
+    featuredProducts: featuredProducts.slice(0, 6),
+    topSellers: sellers
+      .sort((a, b) => b.rating - a.rating)
+      .slice(0, 6),
+    activeAuctions: auctions
+      .filter(auction => auction.status === 'active')
+      .slice(0, 4),
+    activeRaffles: raffles
+      .filter(raffle => raffle.status === 'active')
+      .slice(0, 3),
+    newPreorders: preorders
+      .filter(preorder => preorder.status === 'active')
+      .slice(0, 4),
+    recentRequests: requests
+      .filter(request => request.status === 'active')
+      .sort((a, b) => new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime())
+      .slice(0, 5)
+  }
+}
+
+// Function to search real sneaker data
+export async function searchRealSneakers(keyword: string, limit: number = 10): Promise<Product[]> {
+  try {
+    return await sneaksService.searchAndConvertProducts(keyword, limit)
+  } catch (error) {
+    console.error('Failed to search real sneaker data:', error)
+    return []
   }
 }
 

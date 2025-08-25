@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ItemCard } from "@/components/item-card"
 import { SellerCard } from "@/components/seller-card"
-import { getHomeSections, formatPrice, getTimeRemaining } from "@/lib/data"
+import { getHomeSectionsWithRealData, formatPrice, getTimeRemaining } from "@/lib/data"
 import { ArrowRight, Clock, Users, Gavel, Ticket, Package } from "lucide-react"
 
-export default function Home() {
-  const sections = getHomeSections()
+export default async function Home() {
+  const sections = await getHomeSectionsWithRealData()
 
   return (
     <div className="space-y-12">
