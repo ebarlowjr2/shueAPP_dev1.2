@@ -1,7 +1,6 @@
 'use client'
 
-import { useState } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
@@ -105,30 +104,7 @@ const getStatusColor = (status: string) => {
   }
 }
 
-type AuctionItem = {
-  id: string
-  productName: string
-  brand: string
-  colorway: string
-  size: string
-  condition: string
-  startingBid: number
-  currentBid: number
-  buyNowPrice: number
-  startDate: string
-  endDate: string
-  status: string
-  bidCount: number
-  watchers: number
-  description: string
-  timeRemaining?: string
-  finalPrice?: number
-  winner?: string
-}
-
 export default function AuctionManagement() {
-  const [selectedAuction, setSelectedAuction] = useState<AuctionItem | null>(null)
-
   const activeAuctions = sellerAuctions.filter(auction => auction.status === 'active')
   const endedAuctions = sellerAuctions.filter(auction => auction.status === 'ended')
   const totalRevenue = endedAuctions.reduce((sum, auction) => sum + (auction.finalPrice || 0), 0)

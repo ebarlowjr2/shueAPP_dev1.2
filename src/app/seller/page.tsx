@@ -9,15 +9,10 @@ import {
   Package, 
   Gavel, 
   Ticket, 
-  ShoppingCart, 
   TrendingUp, 
   Eye, 
   DollarSign,
-  Plus,
-  Edit,
-  Trash2,
-  Clock,
-  Users
+  Plus
 } from 'lucide-react'
 import InventoryManagement from '@/components/seller/inventory-management'
 import AuctionManagement from '@/components/seller/auction-management'

@@ -1,7 +1,6 @@
 'use client'
 
-import { useState } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
@@ -12,7 +11,6 @@ import {
   Eye, 
   Package,
   DollarSign,
-  Calendar,
   Star
 } from 'lucide-react'
 
@@ -103,26 +101,7 @@ const getListingTypeIcon = (type: string | null) => {
   }
 }
 
-type InventoryItem = {
-  id: string
-  name: string
-  brand: string
-  colorway: string
-  size: string
-  condition: string
-  purchasePrice: number
-  currentPrice: number
-  status: string
-  listingType: string | null
-  images: string[]
-  dateAdded: string
-  views: number
-  watchers: number
-}
-
 export default function InventoryManagement() {
-  const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null)
-
   return (
     <div className="space-y-6">
       {/* Header */}
