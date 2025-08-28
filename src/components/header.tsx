@@ -27,7 +27,7 @@ export function Header() {
               Requests
             </Link>
             <Link
-              href="/sellers/dashboard"
+              href="/seller"
               className="transition-colors hover:text-foreground/80 text-foreground/60"
             >
               Sell
