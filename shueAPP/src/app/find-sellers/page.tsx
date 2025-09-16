@@ -121,16 +121,16 @@ export default function FindSellersPage() {
               </p>
             </div>
             <div className="space-y-2">
-              <h3 className="font-semibold">Trust Your Instincts</h3>
-              <p className="text-sm text-muted-foreground">
-                If something feels off, don't hesitate to cancel or reschedule.
-              </p>
+            <h3 className="font-semibold">Trust Your Instincts</h3>
+            <p className="text-sm text-muted-foreground">
+              If something feels off, don&apos;t hesitate to cancel or reschedule.
+            </p>
             </div>
             <div className="space-y-2">
-              <h3 className="font-semibold">Share Your Plans</h3>
-              <p className="text-sm text-muted-foreground">
-                Let someone know where you're going and when you expect to return.
-              </p>
+            <h3 className="font-semibold">Share Your Plans</h3>
+            <p className="text-sm text-muted-foreground">
+              Let someone know where you&apos;re going and when you expect to return.
+            </p>
             </div>
           </div>
         </CardContent>
