@@ -21,13 +21,19 @@ export function Header() {
               Explore
             </Link>
             <Link
+              href="/find-sellers"
+              className="transition-colors hover:text-foreground/80 text-foreground/60"
+            >
+              Find Sellers
+            </Link>
+            <Link
               href="/requests"
               className="transition-colors hover:text-foreground/80 text-foreground/60"
             >
               Requests
             </Link>
             <Link
-              href="/sellers/dashboard"
+              href="/seller"
               className="transition-colors hover:text-foreground/80 text-foreground/60"
             >
               Sell
