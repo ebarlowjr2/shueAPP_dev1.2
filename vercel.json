@@ -1,6 +1,7 @@
 {
-  "buildCommand": "cd shueAPP && npm run build",
-  "outputDirectory": "shueAPP/.next",
-  "installCommand": "cd shueAPP && npm install",
-  "framework": "nextjs"
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "rootDirectory": "shueAPP"
 }
