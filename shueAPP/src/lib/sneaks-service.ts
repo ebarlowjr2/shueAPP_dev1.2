@@ -74,7 +74,7 @@ class SneaksService {
 
   private async initializeSneaks() {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const SneaksAPI = require('sneaks-api');
       this.sneaks = new SneaksAPI();
     } catch (error) {
