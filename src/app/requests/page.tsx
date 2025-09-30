@@ -53,7 +53,7 @@ function getTimeAgo(dateString: string) {
   return `${Math.floor(diffDays / 30)} months ago`
 }
 
-function getShoeImage(productName: string, brand: string) {
+function getPlaceholderImage(productName: string, brand: string) {
   const brandLower = brand.toLowerCase()
   const productLower = productName.toLowerCase()
   
@@ -88,11 +88,33 @@ function getMockReleaseDate(productName: string) {
   }
 }
 
-export default function RequestsPage() {
+export default async function RequestsPage() {
   const requests = getRequests()
   const activeRequests = requests.filter((request: Request) => request.status === 'active')
   const fulfilledRequests = requests.filter((request: Request) => request.status === 'fulfilled')
   const expiredRequests = requests.filter((request: Request) => request.status === 'expired')
+
+  const getShoeImage = (productName: string, brand: string) => {
+    const productLower = productName.toLowerCase()
+    
+    if (productLower.includes('travis scott') && productLower.includes('dunk')) {
+      return 'https://images.stockx.com/images/Nike-Dunk-Low-Travis-Scott.jpg?fit=fill&bg=FFFFFF&w=700&h=500&fm=webp&auto=compress&q=90&dpr=2&trim=color&updated_at=1627495005'
+    } else if (productLower.includes('black cat')) {
+      return 'https://images.stockx.com/images/Air-Jordan-4-Retro-Black-Cat-2020.jpg?fit=fill&bg=FFFFFF&w=700&h=500&fm=webp&auto=compress&q=90&dpr=2&trim=color&updated_at=1609372857'
+    } else if (productLower.includes('off-white') && productLower.includes('blazer')) {
+      return 'https://images.stockx.com/images/Nike-Blazer-Mid-Off-White-All-Hallows-Eve.jpg?fit=fill&bg=FFFFFF&w=700&h=500&fm=webp&auto=compress&q=90&dpr=2&trim=color&updated_at=1538080256'
+    } else if (productLower.includes('yeezy') && productLower.includes('700')) {
+      return 'https://images.stockx.com/images/Adidas-Yeezy-Boost-700-Wave-Runner.jpg?fit=fill&bg=FFFFFF&w=700&h=500&fm=webp&auto=compress&q=90&dpr=2&trim=color&updated_at=1606325289'
+    } else if (productLower.includes('fragment') && productLower.includes('travis scott')) {
+      return 'https://images.stockx.com/images/Air-Jordan-1-Low-Fragment-Travis-Scott.jpg?fit=fill&bg=FFFFFF&w=700&h=500&fm=webp&auto=compress&q=90&dpr=2&trim=color&updated_at=1627495005'
+    } else if (productLower.includes('patta') && productLower.includes('air max')) {
+      return 'https://images.stockx.com/images/Nike-Air-Max-1-Patta-Waves-Noise-Aqua.jpg?fit=fill&bg=FFFFFF&w=700&h=500&fm=webp&auto=compress&q=90&dpr=2&trim=color&updated_at=1606325289'
+    } else if (productLower.includes('bad bunny')) {
+      return 'https://images.stockx.com/images/Adidas-Forum-Low-Bad-Bunny-Pink.jpg?fit=fill&bg=FFFFFF&w=700&h=500&fm=webp&auto=compress&q=90&dpr=2&trim=color&updated_at=1606325289'
+    } else {
+      return getPlaceholderImage(productName, brand)
+    }
+  }
 
   return (
     <div className="space-y-8">
