@@ -1,16 +1,46 @@
+"use client"
+
+import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Sparkles, Shield, Users } from "lucide-react"
+import { LoginModal } from "@/components/auth/login-modal"
+import { useAuth } from "@/contexts/auth-context"
+import { ArrowRight, Sparkles, Shield, Users, LogIn } from "lucide-react"
 
 export default function Home() {
+  const [showLoginModal, setShowLoginModal] = useState(false)
+  const { isAuthenticated, user } = useAuth()
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="text-center space-y-8 py-24 bg-gradient-to-b from-primary/5 via-secondary/5 to-transparent">
         <div className="space-y-6">
-          <h1 className="text-6xl font-bold tracking-tight sm:text-8xl bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
-            ShueAPP
-          </h1>
+          <div className="relative inline-block">
+            <h1 className="text-6xl font-bold tracking-tight sm:text-8xl bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent cursor-pointer hover:scale-105 transition-transform duration-200"
+                onClick={() => !isAuthenticated && setShowLoginModal(true)}>
+              ShueAPP
+            </h1>
+            {!isAuthenticated && (
+              <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4">
+                <Button 
+                  size="sm"
+                  onClick={() => setShowLoginModal(true)}
+                  className="rounded-full shadow-lg hover:shadow-xl transition-all duration-200 bg-primary/90 hover:bg-primary text-xs sm:text-sm"
+                >
+                  <LogIn className="mr-1 h-3 w-3 sm:h-4 sm:w-4" />
+                  Login
+                </Button>
+              </div>
+            )}
+            {isAuthenticated && (
+              <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4">
+                <div className="bg-green-500 text-white px-3 py-1 rounded-full text-xs sm:text-sm font-medium shadow-lg">
+                  Welcome, {user?.name?.split(' ')[0]}!
+                </div>
+              </div>
+            )}
+          </div>
           <p className="text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             The Ultimate Sneaker Marketplace
           </p>
@@ -92,6 +122,11 @@ export default function Home() {
           </div>
         </div>
       </section>
+      
+      <LoginModal 
+        isOpen={showLoginModal} 
+        onClose={() => setShowLoginModal(false)} 
+      />
     </div>
   )
 }
