@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { AuthProvider } from "@/contexts/auth-context";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 
@@ -36,11 +37,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
-          <main className="flex-1 container mx-auto px-4 py-8">
-            {children}
-          </main>
-          <Footer />
+          <AuthProvider>
+            <Header />
+            <main className="flex-1 container mx-auto px-4 py-8">
+              {children}
+            </main>
+            <Footer />
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
