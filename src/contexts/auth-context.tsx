@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useState, ReactNode } from 'react'
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 
 interface User {
   id: string
@@ -23,6 +23,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
+  useEffect(() => {
+    const savedUser = localStorage.getItem('shueapp_user')
+    if (savedUser) {
+      try {
+        setUser(JSON.parse(savedUser))
+      } catch (error) {
+        localStorage.removeItem('shueapp_user')
+      }
+    }
+  }, [])
+
   const login = async (email: string, password: string) => {
     setIsLoading(true)
     try {
@@ -34,6 +45,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         avatar: '/placeholder-avatar.jpg'
       }
       setUser(mockUser)
+      localStorage.setItem('shueapp_user', JSON.stringify(mockUser))
     } catch (error) {
       throw new Error('Login failed')
     } finally {
@@ -43,6 +55,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = () => {
     setUser(null)
+    localStorage.removeItem('shueapp_user')
   }
 
   return (
