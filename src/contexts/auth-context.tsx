@@ -15,6 +15,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>
   logout: () => void
   isLoading: boolean
+  isInitializing: boolean
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -22,6 +23,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [isInitializing, setIsInitializing] = useState(true)
 
   useEffect(() => {
     const savedUser = localStorage.getItem('shueapp_user')
@@ -32,6 +34,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         localStorage.removeItem('shueapp_user')
       }
     }
+    setIsInitializing(false)
   }, [])
 
   const login = async (email: string, password: string) => {
@@ -64,7 +67,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isAuthenticated: !!user,
       login,
       logout,
-      isLoading
+      isLoading,
+      isInitializing
     }}>
       {children}
     </AuthContext.Provider>

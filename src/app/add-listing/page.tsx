@@ -52,7 +52,7 @@ const CONDITIONS = [
 
 export default function AddListingPage() {
   const router = useRouter()
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, isInitializing } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
   
@@ -73,10 +73,10 @@ export default function AddListingPage() {
   })
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      router.push('/seller')
+    if (!isInitializing && !isAuthenticated) {
+      router.push('/')
     }
-  }, [isAuthenticated, router])
+  }, [isAuthenticated, isInitializing, router])
 
   const handleInputChange = (field: keyof ListingFormData, value: string | number | undefined) => {
     setFormData(prev => ({ ...prev, [field]: value }))
@@ -171,8 +171,27 @@ export default function AddListingPage() {
     }
   }
 
+  if (isInitializing) {
+    return (
+      <div className="container mx-auto p-6 max-w-4xl">
+        <div className="text-center space-y-4">
+          <h1 className="text-2xl font-bold">Loading...</h1>
+          <p className="text-muted-foreground">Checking authentication status...</p>
+        </div>
+      </div>
+    )
+  }
+
   if (!isAuthenticated) {
-    return null
+    return (
+      <div className="container mx-auto p-6 max-w-4xl">
+        <div className="text-center space-y-4">
+          <h1 className="text-2xl font-bold">Authentication Required</h1>
+          <p className="text-muted-foreground">Please log in to create a listing.</p>
+          <Button onClick={() => router.push('/')}>Go to Login</Button>
+        </div>
+      </div>
+    )
   }
 
   return (
