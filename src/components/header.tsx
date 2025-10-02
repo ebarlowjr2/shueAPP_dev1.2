@@ -1,9 +1,18 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
+import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "./theme-toggle"
+import { LoginModal } from "./auth/login-modal"
+import { UserMenu } from "./auth/user-menu"
+import { useAuth } from "@/contexts/auth-context"
+import { LogIn } from "lucide-react"
 
 export function Header() {
+  const [showLoginModal, setShowLoginModal] = useState(false)
+  const { isAuthenticated } = useAuth()
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center">
@@ -12,6 +21,17 @@ export function Header() {
             <span className="hidden font-bold sm:inline-block">
               ShueApp
             </span>
+            {!isAuthenticated && (
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => setShowLoginModal(true)}
+                className="ml-2 text-xs"
+              >
+                <LogIn className="mr-1 h-3 w-3" />
+                Login
+              </Button>
+            )}
           </Link>
           <nav className="flex items-center space-x-6 text-sm font-medium">
             <Link
@@ -19,6 +39,12 @@ export function Header() {
               className="transition-colors hover:text-foreground/80 text-foreground/60"
             >
               Explore
+            </Link>
+            <Link
+              href="/find-sellers"
+              className="transition-colors hover:text-foreground/80 text-foreground/60"
+            >
+              Find Sellers
             </Link>
             <Link
               href="/requests"
@@ -44,13 +70,29 @@ export function Header() {
           <div className="w-full flex-1 md:w-auto md:flex-none">
             <Link href="/" className="flex items-center space-x-2 md:hidden">
               <span className="font-bold">ShueApp</span>
+              {!isAuthenticated && (
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  onClick={() => setShowLoginModal(true)}
+                  className="ml-2 text-xs"
+                >
+                  <LogIn className="mr-1 h-3 w-3" />
+                  Login
+                </Button>
+              )}
             </Link>
           </div>
-          <nav className="flex items-center">
+          <nav className="flex items-center space-x-2">
+            {isAuthenticated && <UserMenu />}
             <ThemeToggle />
           </nav>
         </div>
       </div>
+      <LoginModal 
+        isOpen={showLoginModal} 
+        onClose={() => setShowLoginModal(false)} 
+      />
     </header>
   )
 }
