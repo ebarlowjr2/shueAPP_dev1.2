@@ -4,7 +4,6 @@ import requestsData from '../../data/requests.json'
 import auctionsData from '../../data/auctions.json'
 import rafflesData from '../../data/raffles.json'
 import preordersData from '../../data/preorders.json'
-import { sneaksService } from './sneaks-service'
 
 // Types
 export interface Product {
@@ -246,25 +245,17 @@ export function getHomeSections(): HomeSections {
   }
 }
 
-// New function to get home sections with real sneaker data
-export async function getHomeSectionsWithRealData(): Promise<HomeSections> {
+// Function to get home sections with expanded product data
+export function getHomeSectionsWithRealData(): HomeSections {
+  const products = getProducts()
   const sellers = getSellers()
   const auctions = getAuctions()
   const raffles = getRaffles()
   const preorders = getPreorders()
   const requests = getRequests()
 
-  // Try to get real sneaker data, fallback to static data if it fails
-  let featuredProducts: Product[] = []
-  try {
-    featuredProducts = await sneaksService.getFeaturedProducts()
-  } catch (error) {
-    console.error('Failed to fetch real sneaker data, using fallback:', error)
-    featuredProducts = getProducts().slice(0, 6)
-  }
-
   return {
-    featuredProducts: featuredProducts.slice(0, 6),
+    featuredProducts: products.slice(0, 12), // More products for floating orbs
     topSellers: sellers
       .sort((a, b) => b.rating - a.rating)
       .slice(0, 6),
@@ -284,14 +275,15 @@ export async function getHomeSectionsWithRealData(): Promise<HomeSections> {
   }
 }
 
-// Function to search real sneaker data
-export async function searchRealSneakers(keyword: string, limit: number = 10): Promise<Product[]> {
-  try {
-    return await sneaksService.searchAndConvertProducts(keyword, limit)
-  } catch (error) {
-    console.error('Failed to search real sneaker data:', error)
-    return []
-  }
+// Function to search local sneaker data
+export function searchLocalSneakers(keyword: string, limit: number = 10): Product[] {
+  const products = getProducts()
+  const results = products.filter(product => 
+    product.name.toLowerCase().includes(keyword.toLowerCase()) ||
+    product.brand.toLowerCase().includes(keyword.toLowerCase()) ||
+    product.colorway.toLowerCase().includes(keyword.toLowerCase())
+  )
+  return results.slice(0, limit)
 }
 
 export function getActiveRequests(): Request[] {
