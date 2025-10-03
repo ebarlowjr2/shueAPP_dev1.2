@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -8,7 +8,6 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Select } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
-import { useAuth } from '@/contexts/auth-context'
 import { 
   Upload, 
   X, 
@@ -35,6 +34,7 @@ interface ListingFormData {
   minBid?: number
   buyNowPrice?: number
   auctionDuration?: number
+  allowPreorders: boolean
 }
 
 const SHOE_SIZES = [
@@ -52,7 +52,6 @@ const CONDITIONS = [
 
 export default function AddListingPage() {
   const router = useRouter()
-  const { isAuthenticated, isInitializing } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
   
@@ -69,16 +68,12 @@ export default function AddListingPage() {
     location: '',
     minBid: undefined,
     buyNowPrice: undefined,
-    auctionDuration: undefined
+    auctionDuration: undefined,
+    allowPreorders: false
   })
 
-  useEffect(() => {
-    if (!isInitializing && !isAuthenticated) {
-      router.push('/')
-    }
-  }, [isAuthenticated, isInitializing, router])
 
-  const handleInputChange = (field: keyof ListingFormData, value: string | number | undefined) => {
+  const handleInputChange = (field: keyof ListingFormData, value: string | number | boolean | undefined) => {
     setFormData(prev => ({ ...prev, [field]: value }))
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }))
@@ -171,28 +166,6 @@ export default function AddListingPage() {
     }
   }
 
-  if (isInitializing) {
-    return (
-      <div className="container mx-auto p-6 max-w-4xl">
-        <div className="text-center space-y-4">
-          <h1 className="text-2xl font-bold">Loading...</h1>
-          <p className="text-muted-foreground">Checking authentication status...</p>
-        </div>
-      </div>
-    )
-  }
-
-  if (!isAuthenticated) {
-    return (
-      <div className="container mx-auto p-6 max-w-4xl">
-        <div className="text-center space-y-4">
-          <h1 className="text-2xl font-bold">Authentication Required</h1>
-          <p className="text-muted-foreground">Please log in to create a listing.</p>
-          <Button onClick={() => router.push('/')}>Go to Login</Button>
-        </div>
-      </div>
-    )
-  }
 
   return (
     <div className="container mx-auto p-6 max-w-4xl">
@@ -479,6 +452,26 @@ export default function AddListingPage() {
                 />
               </div>
             )}
+
+            <div className="mt-6 pt-4 border-t border-gray-200">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="text-sm font-medium">Allow Preorders</h4>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Let buyers place orders before the item is available
+                  </p>
+                </div>
+                <Button
+                  type="button"
+                  variant={formData.allowPreorders ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => handleInputChange('allowPreorders', !formData.allowPreorders)}
+                  className="min-w-[60px]"
+                >
+                  {formData.allowPreorders ? 'On' : 'Off'}
+                </Button>
+              </div>
+            </div>
           </CardContent>
         </Card>
 
